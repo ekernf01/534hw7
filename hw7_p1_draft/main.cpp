@@ -58,17 +58,17 @@ int main()
 
   //Generate the actual random numbers
   int samp_size = 10000;
-  gsl_matrix* sample_isotropic = gsl_matrix_alloc(samp_size, p);
+  gsl_matrix* sample_isotropic = gsl_matrix_alloc(p, samp_size);
   for(int i=0; i<samp_size; i++){
     for(int j=0; j<p; j++){
-      gsl_matrix_set(sample_isotropic, i, j, gsl_ran_ugaussian(my_gsl_rng));
+      gsl_matrix_set(sample_isotropic, j, i, gsl_ran_ugaussian(my_gsl_rng));
     }
   }
   
   cout << "done generating isotropic samples" << endl;
 
   //Transform them to have the right covariance
-  gsl_matrix* sample_correct = gsl_matrix_alloc(samp_size, p);
+  gsl_matrix* sample_correct = gsl_matrix_alloc(p, samp_size);
   matrixproduct(cov_or_sqrt_cov, sample_isotropic, sample_correct);
   cout << "done transforming isotropic samples" << endl;
   
