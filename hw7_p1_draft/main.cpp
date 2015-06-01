@@ -68,17 +68,19 @@ int main()
   cout << "done generating isotropic samples" << endl;
 
   //Transform them to have the right covariance
-  //copy them, transposed, into a crude array
   gsl_matrix* sample_correct = gsl_matrix_alloc(samp_size, p);
   matrixproduct(cov_or_sqrt_cov, sample_isotropic, sample_correct);
+  cout << "done transforming isotropic samples" << endl;
+  
+  //copy them, transposed, into a crude array
   double** sample_correct_array = new double*[p];
   for(int i=0; i<p; i++){
     sample_correct_array[i] = new double[samp_size];
     for(int j=0; j<samp_size; j++){
-      sample_correct_array[i][j] = gsl_matrix_get(sample_correct, i,j);
+      sample_correct_array[i][j] = gsl_matrix_get(sample_correct,j, i);
     }
   }
-  cout << "done transforming isotropic samples" << endl;
+  cout << "done copying samples" << endl;
 
   //get the sample covariance for the synthetic data
   gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, samp_size);
