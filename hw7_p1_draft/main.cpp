@@ -27,15 +27,15 @@ int main()
   int p = 51; //number of variables
   char datafilename[] = "erdata.txt"; //name of the data file
   char outputfilename[] = "eric_cov_10_000.txt";
-  
-  cout << "done reading data" << endl;
-  
+    
   //read the data
   double** data = readmatrix(datafilename,n,p);
+  cout << "done reading data" << endl;
 
   //Get the covariance
   gsl_matrix* cov_or_sqrt_cov = eric_covariance(data, p, n);
-  
+    cout << "done getting cov" << endl;
+
   //Do Cholesky. GSL leaves garbage above the diagonal. The loops below remove it.
   gsl_linalg_cholesky_decomp(cov_or_sqrt_cov);
   for(int i=0; i<p; i++){
@@ -45,6 +45,7 @@ int main()
       }
     }
   }
+    cout << "done with chol" << endl;
 
   //rng setup
   const gsl_rng_type * my_gsl_rng_type;
@@ -53,6 +54,8 @@ int main()
   my_gsl_rng_type = gsl_rng_default;
   my_gsl_rng = gsl_rng_alloc(my_gsl_rng_type);
   
+  cout << "done with rng setup" << endl;
+
   //Generate the actual random numbers
   int samp_size = 10000;
   gsl_matrix* sample_isotropic = gsl_matrix_alloc(samp_size, p);
@@ -62,6 +65,8 @@ int main()
     }
   }
   
+  cout << "done generating isotropic samples" << endl;
+
   //Transform them to have the right covariance
   //copy them, transposed, into a crude array
   gsl_matrix* sample_correct = gsl_matrix_alloc(samp_size, p);
@@ -73,9 +78,11 @@ int main()
       sample_correct_array[i][j] = gsl_matrix_get(sample_correct, j,i);
     }
   }
-  
+  cout << "done transforming isotropic samples" << endl;
+
   //get the sample covariance for the synthetic data
   gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, n);
+  cout << "done getting synth samples' covariance" << endl;
 
   //print it
   char format[] = "%f";
@@ -86,7 +93,9 @@ int main()
   }
   gsl_matrix_fprintf (out, synth_samp_cov, format);
   fclose(out);
-  
+    
+  cout << "done printing" << endl;
+
   //free memory
   freematrix(p,data);
   gsl_matrix_free(synth_samp_cov);
