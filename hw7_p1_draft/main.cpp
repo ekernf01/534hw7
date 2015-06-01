@@ -36,8 +36,8 @@ int main()
     cout << "done getting cov" << endl;
 
   //print it
-  char outputfilename[] = "erdata_samp_cov.txt";
-  eric_gsl_mat_print(outputfilename, cov_or_sqrt_cov);
+  char er_outputfilename[] = "erdata_samp_cov.txt";
+  eric_gsl_mat_print(er_outputfilename, cov_or_sqrt_cov);
   cout << "done printing" << endl;
 
   //Do Cholesky. GSL leaves garbage above the diagonal. The loops below remove it.
@@ -92,8 +92,8 @@ int main()
   cout << "done getting synth samples' covariance" << endl;
 
   //print it
-  char outputfilename[] = "synth_samp_cov.txt";
-  eric_gsl_mat_print(outputfilename, gsl_matrix* synth_samp_cov){
+  char synth_outputfilename[] = "synth_samp_cov.txt";
+  eric_gsl_mat_print(synth_outputfilename, gsl_matrix* synth_samp_cov){
   cout << "done printing" << endl;
 
 
