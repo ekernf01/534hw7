@@ -91,7 +91,7 @@ int main()
     printf("Cannot open output file [%s]\n",outputfilename);
     exit(1);
   }
-  gsl_matrix_fprintf (out, synth_samp_cov, format);
+  gsl_matrix_fprintf(out, synth_samp_cov, format);
   fclose(out);
     
   cout << "done printing" << endl;
