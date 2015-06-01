@@ -81,7 +81,7 @@ int main()
   cout << "done transforming isotropic samples" << endl;
 
   //get the sample covariance for the synthetic data
-  gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, n);
+  gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, samp_size);
   cout << "done getting synth samples' covariance" << endl;
 
   //print it
