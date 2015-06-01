@@ -1,5 +1,6 @@
 #include "hw7p1.h"
 #include <stdio.h>
+using namespace std;
 
 //reads from a file a matrix with n rows and p columns
 //allocates and returns the 2d array m so that m[p-1][n-1] is valid
