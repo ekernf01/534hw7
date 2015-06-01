@@ -69,6 +69,8 @@ int main()
 
   //Transform them to have the right covariance
   gsl_matrix* sample_correct = gsl_matrix_alloc(p, samp_size);
+  
+  cout << "about to transform isotropic samples" << endl;
   matrixproduct(cov_or_sqrt_cov, sample_isotropic, sample_correct);
   cout << "done transforming isotropic samples" << endl;
   
