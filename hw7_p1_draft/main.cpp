@@ -26,7 +26,6 @@ int main()
   int n = 158; //sample size
   int p = 51; //number of variables
   char datafilename[] = "erdata.txt"; //name of the data file
-  char outputfilename[] = "eric_cov_10_000.txt";
     
   //read the data
   double** data = readmatrix(datafilename,n,p);
@@ -35,6 +34,11 @@ int main()
   //Get the covariance
   gsl_matrix* cov_or_sqrt_cov = eric_covariance(data, p, n);
     cout << "done getting cov" << endl;
+
+  //print it
+  char outputfilename[] = "erdata_samp_cov.txt";
+  eric_gsl_mat_print(outputfilename, gsl_matrix* synth_samp_cov){
+  cout << "done printing" << endl;
 
   //Do Cholesky. GSL leaves garbage above the diagonal. The loops below remove it.
   gsl_linalg_cholesky_decomp(cov_or_sqrt_cov);
@@ -88,16 +92,10 @@ int main()
   cout << "done getting synth samples' covariance" << endl;
 
   //print it
-  char format[] = "%f";
-  FILE* out = fopen(outputfilename,"w");
-  if(NULL==out){
-    printf("Cannot open output file [%s]\n",outputfilename);
-    exit(1);
-  }
-  gsl_matrix_fprintf(out, synth_samp_cov, format);
-  fclose(out);
-    
+  char outputfilename[] = "synth_samp_cov.txt";
+  eric_gsl_mat_print(outputfilename, gsl_matrix* synth_samp_cov){
   cout << "done printing" << endl;
+
 
   //free memory
   freematrix(p,data);

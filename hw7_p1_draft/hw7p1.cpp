@@ -2,6 +2,20 @@
 #include <stdio.h>
 using namespace std;
 
+//Prints a GSL matrix to the file outputfilename
+void eric_gsl_mat_print(char* outputfilename, gsl_matrix* mat_to_print){
+  char format[] = "%f";
+  FILE* out = fopen(outputfilename,"w");
+  if(NULL==out){
+    printf("Cannot open output file [%s]\n",outputfilename);
+    exit(1);
+  }
+  gsl_matrix_fprintf(out, mat_to_print, format);
+  fclose(out);
+  return
+}
+
+
 //reads from a file a matrix with n rows and p columns
 //allocates and returns the 2d array m so that m[p-1][n-1] is valid
 double** readmatrix(char* filename,int n,int p){
