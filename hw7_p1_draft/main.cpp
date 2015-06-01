@@ -9,15 +9,16 @@
  That mismatch prompted much of the bad design that went into this program.
  
  I have taken some of Adrian's code for (non-GSL) matrices.
- But, I did not put any of it in matrices.cpp. It's in main.
+ But, I did not put any of it in matrices.cpp. It's in hw7p1.cpp.
  
 */
 
 
 #include "matrices.h"
-#include "regmodels.h"
 #include <stdio.h>
 #include <iostream>
+#include "hw7p1.h"
+
 using namespace std;
 
 int main()
@@ -28,7 +29,7 @@ int main()
   char outputfilename[] = "eric_cov_10_000.txt";
 
   //read the data
-  double** data = readmatrix(datafilename,n,p,data);
+  double** data = readmatrix(datafilename,n,p);
 
   //Get the covariance
   gsl_matrix* cov_or_sqrt_cov = eric_covariance(data, p, n);
@@ -48,7 +49,7 @@ int main()
   gsl_rng * my_gsl_rng;
   gsl_rng_env_setup();
   my_gsl_rng_type = gsl_rng_default;
-  my_gsl_rng = gsl_rng_alloc(T);
+  my_gsl_rng = gsl_rng_alloc(my_gsl_rng_type);
   
   //Generate the actual random numbers
   int samp_size = 10000;
@@ -75,13 +76,13 @@ int main()
   gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, n);
 
   //print it
-  char format[] = "%f"
+  char format[] = "%f";
   FILE* out = fopen(outputfilename,"w");
   if(NULL==out){
-    printf("Cannot open output file [%s]\n",filename);
+    printf("Cannot open output file [%s]\n",outputfilename);
     exit(1);
   }
-  int gsl_matrix_fprintf (out, synth_samp_cov, format);
+  gsl_matrix_fprintf (out, synth_samp_cov, format);
   fclose(out);
   
   //free memory
@@ -90,7 +91,6 @@ int main()
   freematrix(p,sample_correct_array);
   gsl_matrix_free(sample_isotropic);
   gsl_matrix_free(sample_correct);
-  gsl_matrix_free(predictors_only);
   
   return(1);
 }
