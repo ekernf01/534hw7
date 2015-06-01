@@ -52,7 +52,7 @@ int main()
     cout << "done with chol" << endl;
 
   //rng setup
-  const gsl_rng_type * my_gsl_rng_type;
+  const gsl_rng_type* my_gsl_rng_type;
   gsl_rng * my_gsl_rng;
   gsl_rng_env_setup();
   my_gsl_rng_type = gsl_rng_default;
@@ -93,7 +93,7 @@ int main()
 
   //print it
   char synth_outputfilename[] = "synth_samp_cov.txt";
-  eric_gsl_mat_print(synth_outputfilename, gsl_matrix* synth_samp_cov){
+  eric_gsl_mat_print(synth_outputfilename, synth_samp_cov);
   cout << "done printing" << endl;
 
 
