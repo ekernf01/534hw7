@@ -16,7 +16,7 @@ main.o: main.cpp matrices.h hw7p1.cpp
 	gcc -g -c main.cpp -o main.o ${MATRICES_INCLUDE}
 
 cov_test: main.o matrices.o hw7p1.o
-	gcc main.o matrices.o hw7p1.o -o matrices ${MATRICES_LIB} ${MATRICES_LSTDFLG}
+	gcc main.o matrices.o hw7p1.o -o cov_test ${MATRICES_LIB} ${MATRICES_LSTDFLG}
 
 clean:
 	rm -f *.o

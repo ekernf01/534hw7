@@ -27,7 +27,9 @@ int main()
   int p = 51; //number of variables
   char datafilename[] = "erdata.txt"; //name of the data file
   char outputfilename[] = "eric_cov_10_000.txt";
-
+  
+  cout << "done reading data" << endl;
+  
   //read the data
   double** data = readmatrix(datafilename,n,p);
 
