@@ -8,6 +8,9 @@
  but GSL's covariance function demands simple arrays, as in double*.
  That mismatch prompted much of the bad design that went into this program.
  
+ I have taken some of Adrian's code for (non-GSL) matrices.
+ But, I did not put any of it in matrices.cpp. It's in main.
+ 
 */
 
 
@@ -49,18 +52,18 @@ int main()
   
   //Generate the actual random numbers
   int samp_size = 10000;
-  gsl_matrix* sample_isotropic = gsl_matrix_alloc(samp_size, p)
+  gsl_matrix* sample_isotropic = gsl_matrix_alloc(samp_size, p);
   for(int i=0; i<samp_size; i++){
     for(int j=0; j<p; j++){
-      gsl_matrix_set(sample_isotropic, i, j, gsl_ran_ugaussian(my_gsl_rng))
+      gsl_matrix_set(sample_isotropic, i, j, gsl_ran_ugaussian(my_gsl_rng));
     }
   }
   
   //Transform them to have the right covariance
   //copy them, transposed, into a crude array
-  gsl_matrix* sample_correct = gsl_matrix_alloc(samp_size, p)
+  gsl_matrix* sample_correct = gsl_matrix_alloc(samp_size, p);
   matrixproduct(cov_or_sqrt_cov, sample_isotropic, sample_correct);
-  double** sample_correct_array = new double*[p]
+  double** sample_correct_array = new double*[p];
   for(int i=0; i<p; i++){
     sample_correct_array[i] = new double[samp_size];
     for(int j=0; j<samp_size; j++){
@@ -72,13 +75,13 @@ int main()
   gsl_matrix* synth_samp_cov = eric_covariance(sample_correct_array, p, n);
 
   //print it
-  string format = "%f"
+  char format[] = "%f"
   FILE* out = fopen(outputfilename,"w");
   if(NULL==out){
     printf("Cannot open output file [%s]\n",filename);
     exit(1);
   }
-  int gsl_matrix_fprintf (out, synth_samp_cov, format)
+  int gsl_matrix_fprintf (out, synth_samp_cov, format);
   fclose(out);
   
   //free memory
@@ -88,49 +91,6 @@ int main()
   gsl_matrix_free(sample_isotropic);
   gsl_matrix_free(sample_correct);
   gsl_matrix_free(predictors_only);
-  delete col_inds;
-  delete row_inds;
   
   return(1);
-}
-
-//reads from a file a matrix with n rows and p columns
-//allocates and returns the 2d array m so that m[p-1][n-1] is valid
-void readmatrix(char* filename,int n,int p)
-{
-  double** m = new double*[p]
-  int i,j;
-  double s;
-  FILE* in = fopen(filename,"r");
-  
-  if(NULL==in){
-    printf("Cannot open input file [%s]\n",filename);
-    exit(1);
-  }
-  for(j=0;j<p;j++){
-    m[j] = new double[n];
-    for(i=0;i<n;i++){
-      fscanf(in,"%lf",&s);
-      m[j][i] = s;
-    }
-  }
-  fclose(in);
-  return;
-}
-
-//This function returns a GSL matrix containing the covariance of the variables stored in data.
-//data[num_vars-1][num_cases-1] should return a double.
-//This function allocates memory.
-gsl_matrix* eric_covariance(double** data, int num_vars, int num_cases){
-  gsl_matrix* cov = gsl_matrix_alloc(p,p)
-  for(int i=0; i<num_vars; i++){
-    for(int j=0; j<num_vars; j++){
-      if(i<=j){
-        cov_entry = gsl_stats_covariance(data[i], 1, data[j], 1, num_cases); //The extra ones say not to skip elements.
-        gsl_matrix_set(cov, i, j, cov_entry);
-        gsl_matrix_set(cov, j, i, cov_entry);
-      }
-    }
-  }
-  return cov
 }
