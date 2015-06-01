@@ -75,7 +75,7 @@ int main()
   for(int i=0; i<p; i++){
     sample_correct_array[i] = new double[samp_size];
     for(int j=0; j<samp_size; j++){
-      sample_correct_array[i][j] = gsl_matrix_get(sample_correct, j,i);
+      sample_correct_array[i][j] = gsl_matrix_get(sample_correct, i,j);
     }
   }
   cout << "done transforming isotropic samples" << endl;

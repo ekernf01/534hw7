@@ -42,7 +42,6 @@ void freematrix(int n,double** m){
 //This function allocates memory.
 gsl_matrix* eric_covariance(double** data, int num_vars, int num_cases){
   gsl_matrix* cov = gsl_matrix_alloc(num_vars,num_vars);
-  cout <<"in eric_covariance in hw7p1.cpp" << endl;
   double cov_entry = 0;
   for(int i=0; i<num_vars; i++){
     for(int j=0; j<num_vars; j++){
@@ -53,6 +52,5 @@ gsl_matrix* eric_covariance(double** data, int num_vars, int num_cases){
       }
     }
   }
-  cout <<"in eric_covariance in hw7p1.cpp" << endl;
   return cov;
 }
