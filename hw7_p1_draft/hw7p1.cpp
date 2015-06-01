@@ -12,7 +12,7 @@ void eric_gsl_mat_print(char* outputfilename, gsl_matrix* mat_to_print){
   }
   gsl_matrix_fprintf(out, mat_to_print, format);
   fclose(out);
-  return
+  return;
 }
 
 

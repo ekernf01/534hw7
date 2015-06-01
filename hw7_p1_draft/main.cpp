@@ -37,7 +37,7 @@ int main()
 
   //print it
   char outputfilename[] = "erdata_samp_cov.txt";
-  eric_gsl_mat_print(outputfilename, gsl_matrix* synth_samp_cov){
+  eric_gsl_mat_print(outputfilename, gsl_matrix* cov_or_sqrt_cov){
   cout << "done printing" << endl;
 
   //Do Cholesky. GSL leaves garbage above the diagonal. The loops below remove it.
